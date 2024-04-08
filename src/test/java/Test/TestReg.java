@@ -1,10 +1,7 @@
 package Test;
 
 import Pages.RegPage;
-import com.mailosaur.MailosaurClient;
-import com.mailosaur.models.Message;
-import com.mailosaur.models.MessageSearchParams;
-import com.mailosaur.models.SearchCriteria;
+
 import com.opencsv.CSVWriter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -146,64 +143,3 @@ public class TestReg {
         }
     }
 
-    public static void testOtp() {
-        try {
-            // Test logic for OTP
-            String apiKey = "vWi26ZLcbt7N4smnG9dgsSqdKXrzC9wL";
-            String serverId = "hskiiqeh";
-            String serverDomain = "hskiiqeh.mailosaur.net";
-            String sentFrom = "noreply@aiworksquad.com";
-
-            // Navigating to the Registration page...
-            System.out.println("Navigating to the Registration page...");
-            driver.get("https://aiworksquad.com/auth-signup-cover");
-
-            // Create an instance of the RegPage class
-            RegPage regPage = new RegPage(driver);
-
-            // Enter new email and generate OTP
-            System.out.println("Entering new email and generating OTP");
-            String emailid = regPage.getRandomEmail();
-            driver.findElement(By.xpath("//input[@name='email']")).sendKeys(emailid);
-            regPage.clickOtp();
-
-            // Retrieve OTP from email
-            //MailosaurClient mailosaur = new MailosaurClient(apiKey);
-            MessageSearchParams params = new MessageSearchParams();
-            params.withServer(serverId);
-
-            SearchCriteria criteria = new SearchCriteria();
-            criteria.withSentTo(emailid);
-            criteria.withSentFrom(sentFrom);
-
-            Message message = mailosaur.messages().get(params, criteria);
-            String body = message.html().body();
-
-            // Extract OTP from email body
-            Pattern pattern = Pattern.compile("<h1>(\\d+)</h1>");
-            Matcher matcher = pattern.matcher(body);
-            matcher.find();
-            String otp = matcher.group(1);
-
-            // Enter OTP and verify email
-            System.out.println("Entering OTP and verifying email");
-            driver.findElement(By.xpath("//input[@name='otp']")).sendKeys(otp);
-            // Click verify button or perform necessary actions
-            // Wait for email verification success message
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(regPage.Emailverifiedlocator()));
-
-            // Verify email verification success message
-            assert regPage.EmailVerified().equals("Email verified successfully") : "Error message is incorrect";
-            System.out.println("email_verification_completed");
-
-            // Write test result to CSV file
-            writeTestResult("OTP", "Passed");
-        } catch (Exception e) {
-            System.out.println("Error occurred: TestOTP " + e.getMessage());
-            // Write test result to CSV file
-            writeTestResult("OTP", "Failed");
-            e.printStackTrace();
-        }
-    }
-}
