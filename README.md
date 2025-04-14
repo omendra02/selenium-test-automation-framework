@@ -44,11 +44,7 @@ To run the tests:
 mvn test
 ```
 
-## Security Notes
 
-- The actual `config.properties` file is ignored by git
-- Sensitive data should be managed through environment variables in production
-- Never commit credentials or sensitive URLs to the repository
 - Use the sample configuration file as a template for new environments
 
 ## Project Structure
