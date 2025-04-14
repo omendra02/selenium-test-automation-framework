@@ -1,0 +1,17 @@
+# Sample configuration file
+# Rename this file to config.properties and update the values
+# Alternatively, set these values as environment variables
+
+# Base URL for the application
+base.url=https://example.com
+
+# Test results directory
+test.results.path=TestResults
+
+# Valid test credentials
+valid.email=your_valid_email@example.com
+valid.password=your_valid_password
+
+# Invalid test credentials
+invalid.email=invalid@example.com
+invalid.password=invalid123 

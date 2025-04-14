@@ -1,0 +1,26 @@
+# Configuration files
+src/test/resources/config.properties
+
+# Test results
+TestResults/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Build files
+target/
+*.class
+*.jar
+
+# Log files
+*.log
+
+# Environment files
+.env
+.env.local
+
+# System files
+.DS_Store
+Thumbs.db 
